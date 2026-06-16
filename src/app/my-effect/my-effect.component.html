@@ -1,0 +1,13 @@
+<div>
+  <input type="checkbox" [ngModel]="isInitialized" (ngModelChange)="onToggleIsInitialized()">
+  @if (isInitialized) {
+    <p>effect is locked! :(</p>
+  } @else {
+    <p>effect is unlocked... :)</p>
+  }
+</div>
+<div>
+  <button (click)="onToggleSignal(0)">Toggle Signal 1</button>
+  <button (click)="onToggleSignal(1)">Toggle Signal 2</button>
+  <button (click)="onToggleSignal(2)">Toggle Signal 3</button>
+</div>
