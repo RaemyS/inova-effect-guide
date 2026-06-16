@@ -17,8 +17,6 @@ export class MyEffectComponent {
   readonly signal2 = signal<boolean>(false);
   readonly signal3 = signal<boolean>(false);
 
-  isInitialized = false
-
   private readonly signalRegister = [this.signal1, this.signal2, this.signal3];
 
   constructor() {
@@ -27,9 +25,8 @@ export class MyEffectComponent {
       .pipe(
         tap(([value1, value2, value3]) =>
         {
-          if (this.isInitialized) {
-            return;
-          }
+          // Remove all shortcuts and let the component be as reactive as it could be in any case
+
           alert(`current signal state ist ${value1}, ${value2}, ${value3}`)
 
           // maybe set other signals, call services, etc.
@@ -41,9 +38,5 @@ export class MyEffectComponent {
 
   onToggleSignal(index: number) {
     this.signalRegister[index].update(previous => !previous);
-  }
-
-  onToggleIsInitialized() {
-    this.isInitialized = !this.isInitialized;
   }
 }
