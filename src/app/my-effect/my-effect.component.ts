@@ -1,4 +1,4 @@
-import {Component, effect, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, effect, signal} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 
 @Component({
@@ -8,6 +8,7 @@ import {FormsModule} from '@angular/forms';
   ],
   templateUrl: './my-effect.component.html',
   styleUrl: './my-effect.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MyEffectComponent {
   readonly signal1 = signal<boolean>(false);  // Could be signal-inputs as well
@@ -29,6 +30,8 @@ export class MyEffectComponent {
       const value3 = this.signal3();
 
       alert(`current signal state ist ${value1}, ${value2}, ${value3}`);
+
+      // maybe set other signals, call services, etc.
     });
   }
 

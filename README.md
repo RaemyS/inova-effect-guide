@@ -1,59 +1,44 @@
 # InovaEffectGuide
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.0.1.
+This Angular project shows an observed usecase of [`effect`](https://angular.dev/guide/signals/effect) in a productive project.
 
-## Development server
+## Experiment
 
-To start a local development server, run:
+### Phase 1: this is fine :)
 
-```bash
-ng serve
-```
+1. Start the app with `npm run start` and open the page in your web browser.
+2. An alert appears and shows the state of the three signal toggle buttons.
+3. As you press the toggle buttons, a newly appearing alert shows the new state.
+4. If you check the checkbox on top of the page, the app will tell you that the "state is locked! :(" now.
+5. Uncheck the checkbox now, the app will tell you that the "state is unlocked... :)".
+6. Use the toggle buttons. You will see the alert appearing as before.
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+### Phase 2: what the...
 
-## Code scaffolding
+_Follow step 1 to and with 4 of Phase 1 first._
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+5. Leave the checkbox checked and use a state toggle button. Nothing happens, the state is locked.
+6. Uncheck the checkbox now, the app will tell you that the "state is unlocked... :)".
 
-```bash
-ng generate component component-name
-```
+> Question:
+> What behavior do you expect now, as you would press the signal toggle buttons?
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+7. Use the toggle buttons. Is the behavior expected?
 
-```bash
-ng generate --help
-```
+### Phase 3: the truth lies inside the code
 
-## Building
+1. Open `src/app/my-effect/my-effect.component.html` and describe, what you see here.
+2. Open `src/app/my-effect/my-effect.component.ts` and describe the code.
 
-To build the project run:
+> Question:
+> What is the intended purpose if the `effect` in the `constructor`?
 
-```bash
-ng build
-```
+> Question:
+> Repeat Phase 2. How can you explain the observed behavior with the code?
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Discussion
 
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- How could we fix the behavior of phase 2? => goal: after unchecking the checkbox, the toggle buttons trigger the alert window and state change.
+- Is this pattern worth fixing at all? What does the shortcut mean in the context of reactivity (imagine that the signals would be inputs from outside)?
+- Read [effect:Use cases for effects](https://angular.dev/guide/signals/effect#use-cases-for-effects). What is your opinion on the topic? How does this affect our current code?
+- Are there alternatives? What would be the clean reactive pattern here (especially if the signals were inputs)?
