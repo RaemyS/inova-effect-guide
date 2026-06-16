@@ -1,5 +1,7 @@
-import {ChangeDetectionStrategy, Component, effect, signal} from '@angular/core';
+import {ChangeDetectionStrategy, Component, DestroyRef, effect, inject, signal} from '@angular/core';
 import {FormsModule} from '@angular/forms';
+import {combineLatest, tap} from 'rxjs';
+import {takeUntilDestroyed, toObservable} from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-my-effect',
@@ -20,19 +22,21 @@ export class MyEffectComponent {
   private readonly signalRegister = [this.signal1, this.signal2, this.signal3];
 
   constructor() {
-    effect(() => {
-      if (this.isInitialized) {
-        return;
-      }
+    // Use RxJS to handle the side effects
+    combineLatest([toObservable(this.signal1), toObservable(this.signal2), toObservable(this.signal3)])
+      .pipe(
+        tap(([value1, value2, value3]) =>
+        {
+          if (this.isInitialized) {
+            return;
+          }
+          alert(`current signal state ist ${value1}, ${value2}, ${value3}`)
 
-      const value1 = this.signal1();
-      const value2 = this.signal2();
-      const value3 = this.signal3();
-
-      alert(`current signal state ist ${value1}, ${value2}, ${value3}`);
-
-      // maybe set other signals, call services, etc.
-    });
+          // maybe set other signals, call services, etc.
+        }),
+        takeUntilDestroyed(inject(DestroyRef))
+      )
+      .subscribe()
   }
 
   onToggleSignal(index: number) {
